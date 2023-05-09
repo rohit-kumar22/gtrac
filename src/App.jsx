@@ -6,6 +6,7 @@ function App() {
   return (
     <>
       <BrowserRouter
+        basename={import.meta.env.DEV ? "/" : "/gtrac/"}
         basename={import.meta.env.DEV ? "/" : "/react-vite-gh-pages/"}>
         <Routes>
           <Route exact path="/" element={<SignUp />} />

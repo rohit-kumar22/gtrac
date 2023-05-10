@@ -7,6 +7,7 @@ import SpeedIcon from "@mui/icons-material/Speed";
 import PowerIcon from "@mui/icons-material/Power";
 import KeyIcon from "@mui/icons-material/Key";
 import LocalShippingIcon from "@mui/icons-material/LocalShipping";
+import BlockIcon from "@mui/icons-material/Block";
 
 const styles = {
   font: {
@@ -18,6 +19,10 @@ const styles = {
   icons: {
     fontSize: "14px",
   },
+  switch: {
+    fontSize: "14px",
+    color: "#da7532",
+  },
 };
 
 export default function CarDetailsCard({ data }) {
@@ -25,55 +30,25 @@ export default function CarDetailsCard({ data }) {
 
   const runningCars = data?.list.map((item) => {
     if (Number(item.gpsDtl.speed) !== 0) {
-      console.log("speed", item.gpsDtl.speed);
       return item;
     }
   });
 
-  console.log("data", data);
-  console.log("running", runningCars);
+  console.log("cards", data?.list.length);
   return (
     <>
       <Box>
-        <Grid container>
-          <Grid item xs={10}>
-            {/* <Box>
-              <Tabs
-                value={tab}
-                onChange={handleTabs}
-                TabIndicatorProps={{
-                  style: {
-                    backgroundColor: "#5cb85c",
-                    color: "black",
-                    "& .MuiTab-root.Mui-selected": {
-                      color: "red",
-                    },
-                  },
-                }}>
-                {tabHeadings.map((tab) => (
-                  <Tab
-                    value={tab.value}
-                    label={tab.label}
-                    sx={{
-                      border: "none",
-                      textTransform: "none",
-                      color: "#5cb85c",
-                    }}
-                  />
-                ))}
-              </Tabs>
-            </Box> */}
-          </Grid>
-        </Grid>
+        <Grid container></Grid>
 
         <Box
           sx={{
             overflowY: "scroll",
-            height: "90vh",
+            height: "85vh",
             scrollbarWidth: "thin",
           }}>
-          {data?.list.map((item) => (
+          {data?.list.map((item, index) => (
             <Box
+              key={index}
               m={1}
               sx={{
                 boxShadow:
@@ -87,6 +62,7 @@ export default function CarDetailsCard({ data }) {
                         fontSize: "18px",
                         fontWeight: 700,
                         color: "#333333",
+                        paddingTop: "5px",
                       }}>
                       {item.vehReg}
                     </Typography>
@@ -94,19 +70,68 @@ export default function CarDetailsCard({ data }) {
 
                   {/* ............................................................................ Running Icon ........................................................................ */}
 
-                  <Grid item xs={2.5}>
-                    <Box
-                      sx={{
-                        backgroundColor: "#aeffcd",
-                        textAlign: "center",
-                        padding: "5px",
-                      }}>
-                      <Typography sx={{ color: "#5cb85c", fontSize: "14px" }}>
-                        Running
-                      </Typography>
-                    </Box>
+                  <Grid item xs={2.6}>
+                    {item.gpsDtl.speed === 0 ? (
+                      <Grid
+                        container
+                        sx={{
+                          backgroundColor: "#ffbdae",
+                          textAlign: "center",
+                          padding: "5px",
+                          cursor: "pointer",
+                        }}>
+                        <Grid item xs={4}>
+                          <BlockIcon
+                            sx={{
+                              paddingBottom: "-15px",
+                              color: "#cc6c46",
+                              fontSize: "20px",
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={8}>
+                          <Typography
+                            sx={{
+                              color: "#cc6c46",
+                              fontSize: "12px",
+                              paddingTop: "2.5px",
+                            }}>
+                            STOPPED
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    ) : (
+                      <Grid
+                        container
+                        sx={{
+                          backgroundColor: "#aeffcd",
+                          textAlign: "center",
+                          padding: "5px",
+                          cursor: "pointer",
+                        }}>
+                        <Grid item xs={4}>
+                          <SpeedIcon
+                            sx={{
+                              paddingBottom: "-15px",
+                              color: "#0ab222",
+                              fontSize: "20px",
+                            }}
+                          />
+                        </Grid>
+                        <Grid item xs={8}>
+                          <Typography
+                            sx={{
+                              color: "#0ab222",
+                              fontSize: "12px",
+                              paddingTop: "2.5px",
+                            }}>
+                            RUNNING
+                          </Typography>
+                        </Grid>
+                      </Grid>
+                    )}
                   </Grid>
-                  <Grid item xs={0.5}></Grid>
+                  <Grid item xs={0.4}></Grid>
 
                   {/* ............................................................................ Shortcut Icon ........................................................................ */}
 
@@ -116,8 +141,9 @@ export default function CarDetailsCard({ data }) {
                         backgroundColor: "#aeffcd",
                         textAlign: "center",
                         padding: "2.5px 5px 2.5px 5px",
+                        cursor: "pointer",
                       }}>
-                      <ShortcutIcon sx={{ color: "#5cb85c" }} />
+                      <ShortcutIcon sx={{ color: "#0ab222" }} />
                     </Box>
                   </Grid>
                   {/* .................................................................................Address......................................................................... */}
@@ -160,7 +186,7 @@ export default function CarDetailsCard({ data }) {
                         />
                       </Box>
                       <Typography sx={styles.font}>
-                        {item.speed ? item.speed : "0"} kmph
+                        {item.gpsDtl.speed ? item.gpsDtl.speed : "0"} kmph
                       </Typography>
                     </Box>
                   </Grid>
@@ -176,29 +202,51 @@ export default function CarDetailsCard({ data }) {
                       <Grid item xs={7.2}>
                         <Typography sx={styles.font}>Consignment</Typography>
                       </Grid>
-                      <Grid item xs={0.8}>
+                      <Grid item xs={0.6}>
                         <PowerIcon
                           sx={{ color: "#da7532", fontSize: "20px" }}
                         />
                       </Grid>
-                      <Grid item xs={1.2}>
-                        <Typography>On</Typography>
+                      <Grid item xs={1}>
+                        <Typography sx={styles.switch}>Off</Typography>
                       </Grid>
-                      <Grid item xs={0.8}>
+                      <Grid item xs={0.6}>
                         <KeyIcon sx={{ color: "#da7532", fontSize: "20px" }} />
                       </Grid>
                       <Grid item xs={1.2}>
-                        On
+                        <Typography sx={styles.switch}>Off</Typography>
                       </Grid>
                     </Grid>
                   </Grid>
                 </Grid>
               </Box>
+
+              {/* ..........................................................................................Driver Details................................................................... */}
+
               <Grid container>
-                <Grid item xs={1}></Grid>
-                <Grid item xs={7}>
-                  <Typography>
-                    {item.drivers.driverName.toUpperCase()}
+                <Grid item xs={0.5}></Grid>
+                <Grid item xs={1} py={0.5}>
+                  <Box
+                    sx={{
+                      width: "30px",
+                      height: "30px",
+                      backgroundColor: "#d9d9d9",
+                      borderRadius: "50%",
+                    }}></Box>
+                </Grid>
+                <Grid item xs={6}>
+                  <Typography pt={1} sx={styles.font}>
+                    {item.drivers.driverName
+                      ? item.drivers.driverName.toUpperCase()
+                      : "NA"}
+                  </Typography>
+                </Grid>
+                <Grid item xs={4}>
+                  <Typography pt={1} sx={styles.font}>
+                    <Box component="span" style={{ fontWeight: 600 }}>
+                      +91&nbsp;
+                    </Box>
+                    {item.drivers.phoneNumber ? item.drivers.phoneNumber : ""}
                   </Typography>
                 </Grid>
               </Grid>

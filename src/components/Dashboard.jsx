@@ -10,26 +10,42 @@ import Sidebar from "./Sidebar";
 import CarDetailsCard from "./CarDetailsCard";
 import Navbar from "./Navbar";
 import axios from "axios";
+import MapView from "./MapView";
+
+const style = {
+  filter: {
+    display: "inline-block",
+    fontSize: "16px",
+    width: "120px",
+    color: "#5cb85c",
+    textTransform: "none",
+    fontWeight: 600,
+    "&::after": {
+      content: '""',
+      marginTop: "10px",
+      marginLeft: "auto",
+      marginRight: "auto",
+      height: "2px",
+      width: "10px",
+      backgroundColor: "tomato",
+    },
+    "&:hover::after": { width: "100%", transition: "all 0.4s" },
+  },
+};
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
   const [progressBar, setProgressBar] = useState(false);
   const [filteredData, setFilteredData] = useState(data);
-  const [tab, setTab] = useState("one");
-  const [mode, setMode] = useState({
-    stoppedCars: null,
-    runningCars: null,
-    notWorkingCars: null,
-  });
+  const [tab, setTab] = useState("three");
+  const [mode, setMode] = useState([
+    { title: "Running", value: "one", count: 0 },
+    { title: "Idle", value: "two", count: 0 },
+    { title: "All", value: "three", count: 0 },
+    { title: "POI", value: "four", count: 0 },
+  ]);
   var stopped = 0;
   var running = 0;
-
-  const tabHeadings = [
-    { value: "one", label: `Running (${running?.length})` },
-    { value: "two", label: "Idle" },
-    { value: "three", label: `All (${data?.list.length})` },
-    { value: "four", label: "POI" },
-  ];
 
   const url =
     "http://gtrac.in:8080/trackingdashboard/getListVehicles?token=53096";
@@ -37,10 +53,14 @@ export default function Dashboard() {
   const getData = async () => {
     // debugger;
     setProgressBar(true);
+
     const response = await fetch(url);
     const res = await response.json();
+
     setProgressBar(false);
+    setFilteredData(res);
     setData(res);
+
     // try {
     //   setProgressBar(true);
     //   await axios.get(url).then((res) => {
@@ -52,32 +72,50 @@ export default function Dashboard() {
     // }
   };
 
-  const handleTabs = (event, newValue) => {
+  const handleTabs = (newValue) => {
+    if (newValue === "one") {
+      const running = data?.list.filter((item) => {
+        console.log("speed", item.gpsDtl.speed);
+        return Number(item.gpsDtl.speed) > 0;
+      });
+      console.log("running", running);
+      setFilteredData({ list: running });
+    } else if (newValue === "two") {
+      const stopped = data?.list.filter((item) => {
+        return item.gpsDtl.speed === 0 || item.gpsDtl.speed === "";
+      });
+      console.log("stopped", stopped);
+      setFilteredData({ list: stopped });
+    } else if (newValue === "three") {
+      setFilteredData(data);
+    }
     setTab(newValue);
   };
 
   useEffect(() => {
-    console.log("called");
     getData();
-    console.log("end");
   }, []);
 
+  useEffect(() => {}, [data]);
+
   useEffect(() => {
-    data?.list.map((item) => {
-      console.log(item.gpsDtl.mode);
-      if (item.gpsDtl.mode === "STOPPED") {
-        stopped++;
-      } else if (item.gpsDtl.mode === "RUNNING") {
-        running++;
+    let st = 0;
+    let rn = 0;
+    let all = data?.list.length;
+    data?.list.forEach((item) => {
+      if (item.gpsDtl.speed === 0 || item.gpsDtl.speed === "") {
+        st++;
+      } else {
+        rn++;
       }
     });
-    setMode({
-      stoppedCars: stopped,
-      runningCars: running,
-      notWorkingCars: null,
-    });
-    setFilteredData(data);
-  }, []);
+    setMode([
+      { title: "Running", value: "one", count: rn },
+      { title: "Idle", value: "two", count: st },
+      { title: "All", value: "three", count: all },
+      { title: "POI", value: "four", count: 0 },
+    ]);
+  }, [data]);
 
   const handleFilter = (mode) => {
     let array = [];
@@ -90,7 +128,8 @@ export default function Dashboard() {
     setZoomOut(5);
   };
 
-  console.log("data", data);
+  console.log("data", filteredData);
+
   return (
     <>
       <Box>
@@ -109,7 +148,7 @@ export default function Dashboard() {
               <Grid
                 item
                 xs={0.5}
-                sx={{ border: "1px solid black", height: "100vh" }}>
+                sx={{ border: "1px solid black", height: "98vh" }}>
                 <Sidebar />
               </Grid>
               <Grid item xs={11.5}>
@@ -124,22 +163,33 @@ export default function Dashboard() {
 
                   <Grid item xs={12}>
                     <Box sx={{ borderBottom: "1px solid black" }}>
-                      <Tabs
+                      <Box sx={{ display: "flex", gap: "2px" }}>
+                        {mode.map((tab, index) => (
+                          <Button
+                            onClick={() => handleTabs(tab.value)}
+                            key={index}
+                            sx={style.filter}>
+                            {`${tab.title} (${tab.count})`}
+                          </Button>
+                        ))}
+                      </Box>
+                      {/* <Tabs
                         value={tab}
                         onChange={handleTabs}
                         TabIndicatorProps={{
                           style: {
                             backgroundColor: "#5cb85c",
-                            color: "black",
+
                             "& .MuiTab-root.Mui-selected": {
                               color: "red",
                             },
                           },
                         }}>
-                        {tabHeadings.map((tab) => (
+                        {mode.map((tab, index) => (
                           <Tab
+                            key={index}
                             value={tab.value}
-                            label={tab.label}
+                            label={`${tab.title} (${tab.count})`}
                             sx={{
                               border: "none",
                               textTransform: "none",
@@ -147,15 +197,22 @@ export default function Dashboard() {
                             }}
                           />
                         ))}
-                      </Tabs>
+                      </Tabs> */}
                     </Box>
                   </Grid>
-                </Grid>
-                <Grid item xs={4}>
-                  <CarDetailsCard data={data} />
+                  {/* .............................................................................................Cards.......................................................... */}
+                  <Grid item xs={4}>
+                    <Box sx={{ height: "89vh" }}>
+                      <CarDetailsCard data={filteredData} />
+                    </Box>
+                  </Grid>
+                  <Grid item xs={0}></Grid>
+                  {/* .............................................................................................Map Component.......................................................... */}
+                  <Grid item xs={8}>
+                    <MapView data={filteredData} zoomControl={4.5} />
+                  </Grid>
                 </Grid>
               </Grid>
-              <Grid item xs={4}></Grid>
             </Grid>
           </Box>
         )}

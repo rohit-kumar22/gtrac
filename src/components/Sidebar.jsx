@@ -13,7 +13,7 @@ const styles = {
     textTransform: "none",
   },
   logo: {
-    color: "#9a9a9a",
+    color: "#c0c8d1",
     marginBottom: "20px",
   },
   tooltip: {

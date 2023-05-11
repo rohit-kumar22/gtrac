@@ -25,14 +25,20 @@ const styles = {
   },
 };
 
-export default function CarDetailsCard({ data }) {
-  const [filteredData, setFilteredData] = useState(data);
-
-  const runningCars = data?.list.map((item) => {
-    if (Number(item.gpsDtl.speed) !== 0) {
-      return item;
+export default function CarDetailsCard({ data, setMapData, mapData }) {
+  const handleCardClick = (data) => {
+    if (mapData?.data && mapData?.data.list[0].vehReg === data.vehReg) {
+      setMapData({
+        state: !mapData.state,
+        data: { list: [data] },
+      });
+    } else {
+      setMapData({
+        state: true,
+        data: { list: [data] },
+      });
     }
-  });
+  };
 
   console.log("cards", data?.list.length);
   return (
@@ -53,7 +59,9 @@ export default function CarDetailsCard({ data }) {
               sx={{
                 boxShadow:
                   "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;",
-              }}>
+                cursor: "pointer",
+              }}
+              onClick={() => handleCardClick(item)}>
               <Box sx={{ padding: "10px", borderBottom: "1px solid #9a9a9a" }}>
                 <Grid container>
                   <Grid item xs={8}>
@@ -79,6 +87,7 @@ export default function CarDetailsCard({ data }) {
                           textAlign: "center",
                           padding: "5px",
                           cursor: "pointer",
+                          height: "30px",
                         }}>
                         <Grid item xs={4}>
                           <BlockIcon
@@ -108,6 +117,7 @@ export default function CarDetailsCard({ data }) {
                           textAlign: "center",
                           padding: "5px",
                           cursor: "pointer",
+                          height: "30px",
                         }}>
                         <Grid item xs={4}>
                           <SpeedIcon
@@ -140,8 +150,9 @@ export default function CarDetailsCard({ data }) {
                       sx={{
                         backgroundColor: "#aeffcd",
                         textAlign: "center",
-                        padding: "2.5px 5px 2.5px 5px",
+                        padding: "0px 5px 0px 5px",
                         cursor: "pointer",
+                        height: "30px",
                       }}>
                       <ShortcutIcon sx={{ color: "#0ab222" }} />
                     </Box>

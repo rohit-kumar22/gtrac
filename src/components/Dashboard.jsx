@@ -7,6 +7,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Sidebar from "./Sidebar";
+import SingleCarDetailsCard from "./SingleCarDetailsCard";
 import CarDetailsCard from "./CarDetailsCard";
 import Navbar from "./Navbar";
 import axios from "axios";
@@ -48,6 +49,7 @@ const style = {
 export default function Dashboard() {
   const [data, setData] = useState(null);
   const [progressBar, setProgressBar] = useState(false);
+  const [singleCarDetailsCard, setSingleCarDetailsCard] = useState(false);
   const [filteredData, setFilteredData] = useState(data);
   const [tab, setTab] = useState("three");
   const [mode, setMode] = useState([
@@ -56,6 +58,7 @@ export default function Dashboard() {
     { title: "All", value: "three", count: 0 },
     { title: "POI", value: "four", count: 0 },
   ]);
+  const [mapData, setMapData] = useState({ state: false, data: null });
   var stopped = 0;
   var running = 0;
 
@@ -102,6 +105,7 @@ export default function Dashboard() {
       setFilteredData(data);
     }
     setTab(newValue);
+    setMapData({ state: false, data: null });
   };
 
   useEffect(() => {
@@ -225,13 +229,23 @@ export default function Dashboard() {
                   {/* .............................................................................................Cards.......................................................... */}
                   <Grid item xs={4}>
                     <Box sx={{ height: "89vh" }}>
-                      <CarDetailsCard data={filteredData} />
+                      <CarDetailsCard
+                        data={filteredData}
+                        // setState={setSingleCarDetailsCard}
+                        setMapData={setMapData}
+                        mapData={mapData}
+                      />
                     </Box>
                   </Grid>
-                  <Grid item xs={0}></Grid>
+                  <Grid item xs={mapData.state ? 4 : 0}>
+                    <SingleCarDetailsCard />
+                  </Grid>
                   {/* .............................................................................................Map Component.......................................................... */}
-                  <Grid item xs={8}>
-                    <MapView data={filteredData} zoomControl={4.5} />
+                  <Grid item xs={mapData.state ? 4 : 8}>
+                    <MapView
+                      data={mapData.state ? mapData.data : filteredData}
+                      zoomControl={4.5}
+                    />
                   </Grid>
                 </Grid>
               </Grid>

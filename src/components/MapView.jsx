@@ -6,13 +6,13 @@ import {
   MarkerClusterer,
   InfoWindow,
 } from "@react-google-maps/api";
-
+import greenTruck from "../assets/greenTruck.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Box, Grid, Typography, Button } from "@mui/material";
 
 const containerStyle = {
   width: "100%",
-  height: "83vh",
+  height: "85vh",
 };
 
 const center = {
@@ -38,12 +38,17 @@ export default function MapView({ data, zoomControl }) {
   const [selectedMarker, setSelectedMarker] = useState("");
   const [zoomOut, setZoomOut] = useState(5);
 
-  console.log("bjkhkjhkjh");
+  useEffect(() => {
+    console.log("zoomOut");
+    setZoomOut(5);
+  }, [data]);
+
+  console.log("Map Called", data);
 
   return (
     <>
       <Box>
-        <Box sx={{ position: "relative", margin: "10px 0 0 5px" }}>
+        <Box sx={{ position: "relative", margin: "0 0 0 0" }}>
           <Box
             sx={{
               position: "absolute",
@@ -53,13 +58,13 @@ export default function MapView({ data, zoomControl }) {
               left: 0,
               zIndex: 5,
             }}>
-            <Typography>hjlij</Typography>
+            <Typography></Typography>
           </Box>
           <LoadScript googleMapsApiKey="">
             <GoogleMap
               mapContainerStyle={containerStyle}
               center={center}
-              zoom={zoomControl}>
+              zoom={zoomOut}>
               <MarkerClusterer>
                 {(clusterer) => (
                   <Box>
@@ -72,6 +77,7 @@ export default function MapView({ data, zoomControl }) {
                         }}
                         title={item.vehReg}
                         label={item.veh}
+                        icon={greenTruck}
                         onClick={() => setSelectedMarker(item)}
                         clusterer={clusterer}
                       />

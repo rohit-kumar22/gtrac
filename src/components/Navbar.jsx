@@ -46,7 +46,7 @@ export default function Navbar() {
             <Typography sx={styles.title}>itgt</Typography>
           </Grid>
           <Grid item xs={1.4}>
-            <Button variant="outlined" sx={styles.button}>
+            <Button variant="outlined" sx={styles.button} onClick={handleNavigate}>
               <LogoutIcon />
               &nbsp; Logout
             </Button>

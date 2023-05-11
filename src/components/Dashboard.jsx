@@ -13,23 +13,35 @@ import axios from "axios";
 import MapView from "./MapView";
 
 const style = {
-  filter: {
+  notActive: {
     display: "inline-block",
     fontSize: "16px",
-    width: "120px",
+    minwidth: "65px",
     color: "#5cb85c",
     textTransform: "none",
     fontWeight: 600,
+    pb: 0,
+    pt: 2,
+
+    "&:hover:": { backgroundColor: "none" },
+  },
+  active: {
+    display: "inline-block",
+    fontSize: "16px",
+    minwidth: "65px",
+    color: "#5cb85c",
+    textTransform: "none",
+    fontWeight: 600,
+    pb: 0,
+    pt: 2,
     "&::after": {
-      content: '""',
-      marginTop: "10px",
-      marginLeft: "auto",
-      marginRight: "auto",
+      content: '" "',
+      display: "block",
+      margin: "0 auto",
       height: "2px",
-      width: "10px",
-      backgroundColor: "tomato",
+      width: "auto !important",
+      backgroundColor: "#5cb85c",
     },
-    "&:hover::after": { width: "100%", transition: "all 0.4s" },
   },
 };
 
@@ -162,14 +174,24 @@ export default function Dashboard() {
                   {/* .....................................................................................Filters................................................................................. */}
 
                   <Grid item xs={12}>
-                    <Box sx={{ borderBottom: "1px solid black" }}>
-                      <Box sx={{ display: "flex", gap: "2px" }}>
-                        {mode.map((tab, index) => (
+                    <Box
+                      sx={{
+                        borderBottom: "1px solid black",
+                        paddingLeft: "20px",
+                      }}>
+                      <Box sx={{ display: "flex", gap: "28px" }}>
+                        {mode.map((item, index) => (
                           <Button
-                            onClick={() => handleTabs(tab.value)}
+                            onClick={() => handleTabs(item.value)}
                             key={index}
-                            sx={style.filter}>
-                            {`${tab.title} (${tab.count})`}
+                            sx={
+                              tab === item.value
+                                ? style.active
+                                : style.notActive
+                            }
+                            // sx={{ ...style.filter},{tab === item.value ? ...style.active : {}}
+                          >
+                            {`${item.title} (${item.count})`}
                           </Button>
                         ))}
                       </Box>

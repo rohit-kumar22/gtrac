@@ -1,11 +1,11 @@
 import { useState, useEffect } from "react";
-// import { Box, Grid, Button, CircularProgress, Tabs, Tab } from "@mui/material";
-import Box from "@mui/material/Box";
-import Grid from "@mui/material/Grid";
-import Button from "@mui/material/Button";
-import CircularProgress from "@mui/material/CircularProgress";
-import Tabs from "@mui/material/Tabs";
-import Tab from "@mui/material/Tab";
+import { Box, Grid, Button, CircularProgress, Tabs, Tab } from "@mui/material";
+// import { Box } from "@mui/material";
+// import Grid from "@mui/material/Grid";
+// import Button from "@mui/material/Button";
+// import CircularProgress from "@mui/material/CircularProgress";
+// import Tabs from "@mui/material/Tabs";
+// import Tab from "@mui/material/Tab";
 import Sidebar from "./Sidebar";
 import SingleCarDetailsCard from "./SingleCarDetailsCard";
 import CarDetailsCard from "./CarDetailsCard";
@@ -237,7 +237,10 @@ export default function Dashboard() {
                       />
                     </Box>
                   </Grid>
-                  <Grid item xs={mapData.state ? 4 : 0}>
+                  <Grid
+                    item
+                    sx={{ display: mapData.state ? "block" : "none" }}
+                    xs={mapData.state ? 4 : 0}>
                     <SingleCarDetailsCard />
                   </Grid>
                   {/* .............................................................................................Map Component.......................................................... */}

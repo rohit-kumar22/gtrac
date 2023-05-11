@@ -159,7 +159,7 @@ export default function CarDetailsCard({ data, setMapData, mapData }) {
                   </Grid>
                   {/* .................................................................................Address......................................................................... */}
                   <Grid item xs={12} mt={2}>
-                    <Box sx={{ display: "flex", gap: "5px" }}>
+                    <Box sx={{ display: "flex" }}>
                       <Box>
                         <LocationOnIcon
                           sx={{ color: "#ef5350", fontSize: "20px" }}

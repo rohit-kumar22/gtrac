@@ -7,7 +7,7 @@ const styles = {
   button: {
     textTransform: "none",
     height: "30px",
-    width: "110px",
+    width: "100px",
     padding: "0px",
     borderColor: "#9a9a9a",
     color: "#333333",
@@ -37,7 +37,7 @@ export default function Navbar() {
       <Box sx={{ borderBottom: "1px solid #9a9a9a", padding: "5px 0 5px 0" }}>
         <Grid container>
           <Grid item xs={0.2}></Grid>
-          <Grid item xs={10}>
+          <Grid item xs={10.4}>
             <Box sx={{ width: "50px", height: "30px" }}>
               <img src={logo} style={styles.logo}></img>
             </Box>
@@ -45,7 +45,7 @@ export default function Navbar() {
           <Grid item xs={0.4}>
             <Typography sx={styles.title}>itgt</Typography>
           </Grid>
-          <Grid item xs={1.4}>
+          <Grid item xs={1}>
             <Button
               variant="outlined"
               sx={styles.button}

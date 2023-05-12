@@ -8,11 +8,11 @@ const styles = {
     color: "#58595a",
     paddingTop: "8px ",
     paddingBottom: "8px ",
-    border: "1px solid #58595a",
     borderRadius: "0px",
     textAlign: "center",
     width: "100%",
     textTransform: "none",
+    backgroundColor: "#468e82",
   },
 };
 

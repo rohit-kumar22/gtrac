@@ -65,6 +65,9 @@ export default function CarDetailsCard({ data, setMapData, mapData }) {
                     mapData?.data && mapData?.data[0].vehReg === item.vehReg
                       ? "#d9d9d9"
                       : "",
+                  // "&:hover": {
+                  //   backgroundColor: "#C0C0C0",
+                  // },
                 }}
                 onClick={() => handleCardClick(item)}>
                 <Box
@@ -156,7 +159,7 @@ export default function CarDetailsCard({ data, setMapData, mapData }) {
                         sx={{
                           backgroundColor: "#aeffcd",
                           textAlign: "center",
-                          padding: "0px 5px 0px 5px",
+                          padding: "2px 5px 0px 5px",
                           cursor: "pointer",
                           height: "30px",
                         }}>
@@ -173,7 +176,7 @@ export default function CarDetailsCard({ data, setMapData, mapData }) {
                         </Box>
                         <Typography sx={styles.font}>
                           <Box component="span">
-                            {item.gpsDtl.latLngDtl.addr}
+                            {item.gpsDtl.latLngDtl.addr.replace(/_/g, " ")}
                           </Box>
                         </Typography>
                       </Box>

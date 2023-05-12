@@ -128,8 +128,8 @@ export default function MapView({ data, zoomControl }) {
                                 <Grid item xs={9}>
                                   <Typography sx={styles.values}>
                                     {selectedMarker.gpsDtl.speed
-                                      ? "0"
-                                      : selectedMarker.gpsDtl.speed}{" "}
+                                      ? selectedMarker.gpsDtl.speed
+                                      : "0"}
                                     km/hr
                                   </Typography>
                                 </Grid>
@@ -143,10 +143,9 @@ export default function MapView({ data, zoomControl }) {
                                 </Grid>
                                 <Grid item xs={9}>
                                   <Typography sx={styles.values}>
-                                    {selectedMarker.gpsDtl.speed
+                                    {selectedMarker.gpsDtl.latLngDtl.gpstime
                                       ? "0"
-                                      : selectedMarker.gpsDtl.speed}{" "}
-                                    km/hr
+                                      : selectedMarker.gpsDtl.latLngDtl.gpstime}
                                   </Typography>
                                 </Grid>
                               </Grid>
@@ -161,7 +160,10 @@ export default function MapView({ data, zoomControl }) {
                                   <Typography
                                     sx={styles.values}
                                     style={{ wordBreak: "break-word" }}>
-                                    {selectedMarker?.gpsDtl.latLngDtl.addr}
+                                    {selectedMarker?.gpsDtl.latLngDtl.addr.replace(
+                                      /_/g,
+                                      " "
+                                    )}
                                   </Typography>
                                 </Grid>
                               </Grid>

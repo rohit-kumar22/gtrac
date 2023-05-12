@@ -63,16 +63,16 @@ export default function Sidebar() {
   };
 
   return (
-    <Box sx={{ display: "flex", cursor: "pointer" }}>
+    <Box
+      sx={{ display: "flex", cursor: "pointer" }}
+      onMouseOver={() => handleDrawerOpen(true)}
+      onMouseOut={() => handleDrawerOpen(false)}>
       <CssBaseline />
       <Drawer
         variant="permanent"
         open={open}
         sx={{ position: "absolute", zIndex: 2 }}>
-        <List
-          onMouseOver={() => handleDrawerOpen(true)}
-          onMouseOut={() => handleDrawerOpen(false)}
-          sx={{ paddingTop: "0px" }}>
+        <List sx={{ paddingTop: "0px" }}>
           {data.map(({ name, Logo }, index) => (
             <ListItem
               key={name}
@@ -118,7 +118,6 @@ export default function Sidebar() {
             </ListItem>
           ))}
         </List>
-        <Divider />
       </Drawer>
     </Box>
   );

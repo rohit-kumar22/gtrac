@@ -27,20 +27,20 @@ const styles = {
 
 export default function CarDetailsCard({ data, setMapData, mapData }) {
   const handleCardClick = (data) => {
-    if (mapData?.data && mapData?.data.list[0].vehReg === data.vehReg) {
+    if (mapData?.data && mapData?.data[0].vehReg === data.vehReg) {
       setMapData({
         state: !mapData.state,
-        data: { list: [data] },
+        data: null,
       });
     } else {
       setMapData({
         state: true,
-        data: { list: [data] },
+        data: [data],
       });
     }
   };
 
-  console.log("cards", data?.list.length);
+  console.log("cards", data);
   return (
     <>
       <Box>
@@ -52,7 +52,7 @@ export default function CarDetailsCard({ data, setMapData, mapData }) {
             height: "85vh",
             scrollbarWidth: "thin",
           }}>
-          {data?.list.map((item, index) => (
+          {data?.map((item, index) => (
             <Box
               key={index}
               m={1}
@@ -60,6 +60,10 @@ export default function CarDetailsCard({ data, setMapData, mapData }) {
                 boxShadow:
                   "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;",
                 cursor: "pointer",
+                backgroundColor:
+                  mapData?.data && mapData?.data[0].vehReg === item.vehReg
+                    ? "#d9d9d9"
+                    : "",
               }}
               onClick={() => handleCardClick(item)}>
               <Box sx={{ padding: "10px", borderBottom: "1px solid #9a9a9a" }}>

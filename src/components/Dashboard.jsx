@@ -45,19 +45,26 @@ const style = {
     },
   },
 };
+const defalutData = {
+  running: [],
+  all: [],
+  poi: [],
+  ide: [],
+};
+const defaultTab = {
+  RUNNING: { label: "Running", value: "running" },
+  IDE: { label: "Ide", value: "ide" },
+  ALL: { label: "All", value: "all" },
+  POI: { label: "Poi", value: "poi" },
+};
 
 export default function Dashboard() {
   const [data, setData] = useState(null);
   const [progressBar, setProgressBar] = useState(false);
   const [singleCarDetailsCard, setSingleCarDetailsCard] = useState(false);
-  const [filteredData, setFilteredData] = useState(data);
-  const [tab, setTab] = useState("three");
-  const [mode, setMode] = useState([
-    { title: "Running", value: "one", count: 0 },
-    { title: "Idle", value: "two", count: 0 },
-    { title: "All", value: "three", count: 0 },
-    { title: "POI", value: "four", count: 0 },
-  ]);
+  const [filteredData, setFilteredData] = useState(defalutData);
+  const [tab, setTab] = useState(defaultTab.RUNNING.value);
+  const [mode, setMode] = useState(defaultTab);
   const [mapData, setMapData] = useState({ state: false, data: null });
   var stopped = 0;
   var running = 0;
@@ -66,14 +73,29 @@ export default function Dashboard() {
     "http://gtrac.in:8080/trackingdashboard/getListVehicles?token=53096";
 
   const getData = async () => {
-    // debugger;
+    debugger;
     setProgressBar(true);
 
     const response = await fetch(url);
     const res = await response.json();
+    const running = res?.list.filter((item) => {
+      console.log("speed", item.gpsDtl.speed);
+      return Number(item.gpsDtl.speed) > 0;
+    });
+
+    const stopped = res?.list.filter((item) => {
+      return item.gpsDtl.speed === 0 || item.gpsDtl.speed === "";
+    });
+
+    console.log("running", running, "stopped", stopped);
 
     setProgressBar(false);
-    setFilteredData(res);
+    setFilteredData((prev) => ({
+      running: running,
+      ide: stopped,
+      all: res.list,
+      poi: [],
+    }));
     setData(res);
 
     // try {
@@ -88,22 +110,22 @@ export default function Dashboard() {
   };
 
   const handleTabs = (newValue) => {
-    if (newValue === "one") {
-      const running = data?.list.filter((item) => {
-        console.log("speed", item.gpsDtl.speed);
-        return Number(item.gpsDtl.speed) > 0;
-      });
-      console.log("running", running);
-      setFilteredData({ list: running });
-    } else if (newValue === "two") {
-      const stopped = data?.list.filter((item) => {
-        return item.gpsDtl.speed === 0 || item.gpsDtl.speed === "";
-      });
-      console.log("stopped", stopped);
-      setFilteredData({ list: stopped });
-    } else if (newValue === "three") {
-      setFilteredData(data);
-    }
+    // if (newValue === "one") {
+    //   const running = data?.list.filter((item) => {
+    //     console.log("speed", item.gpsDtl.speed);
+    //     return Number(item.gpsDtl.speed) > 0;
+    //   });
+    //   console.log("running", running);
+    //   setFilteredData({ list: running });
+    // } else if (newValue === "two") {
+    //   const stopped = data?.list.filter((item) => {
+    //     return item.gpsDtl.speed === 0 || item.gpsDtl.speed === "";
+    //   });
+    //   console.log("stopped", stopped);
+    //   setFilteredData({ list: stopped });
+    // } else if (newValue === "three") {
+    //   setFilteredData(data);
+    // }
     setTab(newValue);
     setMapData({ state: false, data: null });
   };
@@ -125,12 +147,12 @@ export default function Dashboard() {
         rn++;
       }
     });
-    setMode([
-      { title: "Running", value: "one", count: rn },
-      { title: "Idle", value: "two", count: st },
-      { title: "All", value: "three", count: all },
-      { title: "POI", value: "four", count: 0 },
-    ]);
+    // setMode([
+    //   { title: "Running", value: "one", count: rn },
+    //   { title: "Idle", value: "two", count: st },
+    //   { title: "All", value: "three", count: all },
+    //   { title: "POI", value: "four", count: 0 },
+    // ]);
   }, [data]);
 
   const handleFilter = (mode) => {
@@ -140,7 +162,7 @@ export default function Dashboard() {
         array.push(item);
       }
     });
-    setFilteredData({ list: array });
+    // setFilteredData({ list: array });
     setZoomOut(5);
   };
 
@@ -184,7 +206,7 @@ export default function Dashboard() {
                         paddingLeft: "20px",
                       }}>
                       <Box sx={{ display: "flex", gap: "28px" }}>
-                        {mode.map((item, index) => (
+                        {Object.values(mode).map((item, index) => (
                           <Button
                             onClick={() => handleTabs(item.value)}
                             key={index}
@@ -195,7 +217,9 @@ export default function Dashboard() {
                             }
                             // sx={{ ...style.filter},{tab === item.value ? ...style.active : {}}
                           >
-                            {`${item.title} (${item.count})`}
+                            {`${item.label} (${
+                              filteredData[item.value]?.length
+                            })`}
                           </Button>
                         ))}
                       </Box>
@@ -230,7 +254,7 @@ export default function Dashboard() {
                   <Grid item xs={4}>
                     <Box sx={{ height: "89vh" }}>
                       <CarDetailsCard
-                        data={filteredData}
+                        data={filteredData[tab]}
                         // setState={setSingleCarDetailsCard}
                         setMapData={setMapData}
                         mapData={mapData}
@@ -246,7 +270,7 @@ export default function Dashboard() {
                   {/* .............................................................................................Map Component.......................................................... */}
                   <Grid item xs={mapData.state ? 4 : 8}>
                     <MapView
-                      data={mapData.state ? mapData.data : filteredData}
+                      data={mapData.state ? mapData.data : filteredData[tab]}
                       zoomControl={4.5}
                     />
                   </Grid>

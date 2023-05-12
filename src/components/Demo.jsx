@@ -80,7 +80,7 @@ const Drawer = styled(MuiDrawer, {
   }),
 }));
 
-export default function Sidebar() {
+export default function Demo() {
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 

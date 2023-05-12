@@ -10,6 +10,8 @@ import greenTruck from "../assets/greenTruck.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Box, Grid, Typography, Button } from "@mui/material";
 
+const imgUrl = "https://maps.gstatic.com/mapfiles/transparent.png";
+
 const containerStyle = {
   width: "100%",
   height: "85vh",
@@ -52,7 +54,7 @@ export default function MapView({ data, zoomControl }) {
           <Box
             sx={{
               position: "absolute",
-              width: "200px",
+              width: "20px",
               height: "100%",
               top: 70,
               left: 0,
@@ -68,7 +70,7 @@ export default function MapView({ data, zoomControl }) {
               <MarkerClusterer>
                 {(clusterer) => (
                   <Box>
-                    {data?.list.map((item, index) => (
+                    {data?.map((item, index) => (
                       <Marker
                         key={index}
                         position={{
@@ -77,7 +79,7 @@ export default function MapView({ data, zoomControl }) {
                         }}
                         title={item.vehReg}
                         label={item.veh}
-                        icon={greenTruck}
+                        // icon={imgUrl}
                         onClick={() => setSelectedMarker(item)}
                         clusterer={clusterer}
                       />

@@ -52,221 +52,238 @@ export default function CarDetailsCard({ data, setMapData, mapData }) {
             height: "85vh",
             scrollbarWidth: "thin",
           }}>
-          {data?.map((item, index) => (
-            <Box
-              key={index}
-              m={1}
-              sx={{
-                boxShadow:
-                  "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;",
-                cursor: "pointer",
-                backgroundColor:
-                  mapData?.data && mapData?.data[0].vehReg === item.vehReg
-                    ? "#d9d9d9"
-                    : "",
-              }}
-              onClick={() => handleCardClick(item)}>
-              <Box sx={{ padding: "10px", borderBottom: "1px solid #9a9a9a" }}>
-                <Grid container>
-                  <Grid item xs={8}>
-                    <Typography
-                      sx={{
-                        fontSize: "18px",
-                        fontWeight: 700,
-                        color: "#333333",
-                        paddingTop: "5px",
-                      }}>
-                      {item.vehReg}
-                    </Typography>
-                  </Grid>
-
-                  {/* ............................................................................ Running Icon ........................................................................ */}
-
-                  <Grid item xs={2.6}>
-                    {item.gpsDtl.speed === 0 ? (
-                      <Grid
-                        container
+          {data?.length ? (
+            data?.map((item, index) => (
+              <Box
+                key={index}
+                m={1}
+                sx={{
+                  boxShadow:
+                    "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;",
+                  cursor: "pointer",
+                  backgroundColor:
+                    mapData?.data && mapData?.data[0].vehReg === item.vehReg
+                      ? "#d9d9d9"
+                      : "",
+                }}
+                onClick={() => handleCardClick(item)}>
+                <Box
+                  sx={{ padding: "10px", borderBottom: "1px solid #9a9a9a" }}>
+                  <Grid container>
+                    <Grid item xs={8}>
+                      <Typography
                         sx={{
-                          backgroundColor: "#ffbdae",
-                          textAlign: "center",
-                          padding: "5px",
-                          cursor: "pointer",
-                          height: "30px",
+                          fontSize: "18px",
+                          fontWeight: 700,
+                          color: "#333333",
+                          paddingTop: "5px",
                         }}>
-                        <Grid item xs={4}>
-                          <BlockIcon
-                            sx={{
-                              paddingBottom: "-15px",
-                              color: "#cc6c46",
-                              fontSize: "20px",
-                            }}
-                          />
+                        {item.vehReg}
+                      </Typography>
+                    </Grid>
+
+                    {/* ............................................................................ Running Icon ........................................................................ */}
+
+                    <Grid item xs={2.6}>
+                      {item.gpsDtl.speed === 0 ? (
+                        <Grid
+                          container
+                          sx={{
+                            backgroundColor: "#ffbdae",
+                            textAlign: "center",
+                            padding: "5px",
+                            cursor: "pointer",
+                            height: "30px",
+                          }}>
+                          <Grid item xs={4}>
+                            <BlockIcon
+                              sx={{
+                                paddingBottom: "-15px",
+                                color: "#cc6c46",
+                                fontSize: "20px",
+                              }}
+                            />
+                          </Grid>
+                          <Grid item xs={8}>
+                            <Typography
+                              sx={{
+                                color: "#cc6c46",
+                                fontSize: "12px",
+                                paddingTop: "2.5px",
+                              }}>
+                              STOPPED
+                            </Typography>
+                          </Grid>
                         </Grid>
-                        <Grid item xs={8}>
-                          <Typography
-                            sx={{
-                              color: "#cc6c46",
-                              fontSize: "12px",
-                              paddingTop: "2.5px",
-                            }}>
-                            STOPPED
-                          </Typography>
+                      ) : (
+                        <Grid
+                          container
+                          sx={{
+                            backgroundColor: "#aeffcd",
+                            textAlign: "center",
+                            padding: "5px",
+                            cursor: "pointer",
+                            height: "30px",
+                          }}>
+                          <Grid item xs={4}>
+                            <SpeedIcon
+                              sx={{
+                                paddingBottom: "-15px",
+                                color: "#0ab222",
+                                fontSize: "20px",
+                              }}
+                            />
+                          </Grid>
+                          <Grid item xs={8}>
+                            <Typography
+                              sx={{
+                                color: "#0ab222",
+                                fontSize: "12px",
+                                paddingTop: "2.5px",
+                              }}>
+                              RUNNING
+                            </Typography>
+                          </Grid>
                         </Grid>
-                      </Grid>
-                    ) : (
-                      <Grid
-                        container
+                      )}
+                    </Grid>
+                    <Grid item xs={0.4}></Grid>
+
+                    {/* ............................................................................ Shortcut Icon ........................................................................ */}
+
+                    <Grid item xs={1}>
+                      <Box
                         sx={{
                           backgroundColor: "#aeffcd",
                           textAlign: "center",
-                          padding: "5px",
+                          padding: "0px 5px 0px 5px",
                           cursor: "pointer",
                           height: "30px",
                         }}>
-                        <Grid item xs={4}>
+                        <ShortcutIcon sx={{ color: "#0ab222" }} />
+                      </Box>
+                    </Grid>
+                    {/* .................................................................................Address......................................................................... */}
+                    <Grid item xs={12} mt={2}>
+                      <Box sx={{ display: "flex" }}>
+                        <Box>
+                          <LocationOnIcon
+                            sx={{ color: "#ef5350", fontSize: "20px" }}
+                          />
+                        </Box>
+                        <Typography sx={styles.font}>
+                          <Box component="span">
+                            {item.gpsDtl.latLngDtl.addr}
+                          </Box>
+                        </Typography>
+                      </Box>
+                    </Grid>
+                    {/* ................................................................................. Time ......................................................................... */}
+                    <Grid item xs={12} mt={1}>
+                      <Box sx={{ display: "flex", gap: "5px" }}>
+                        <Box>
+                          <AccessTimeFilledIcon
+                            sx={{ paddingBottom: "-15px", fontSize: "20px" }}
+                          />
+                        </Box>
+                        <Typography sx={styles.font}>
+                          {item.gpsDtl.latLngDtl.gpstime}
+                        </Typography>
+                      </Box>
+                    </Grid>
+
+                    {/* ................................................................................. Speed ......................................................................... */}
+                    <Grid item xs={12} mt={1}>
+                      <Box sx={{ display: "flex", gap: "5px" }}>
+                        <Box>
                           <SpeedIcon
                             sx={{
                               paddingBottom: "-15px",
-                              color: "#0ab222",
+                              color: "#4a9aba",
                               fontSize: "20px",
                             }}
                           />
+                        </Box>
+                        <Typography sx={styles.font}>
+                          {item.gpsDtl.speed ? item.gpsDtl.speed : "0"} kmph
+                        </Typography>
+                      </Box>
+                    </Grid>
+
+                    {/* ...................................................................................... Consignment ........................................................................................ */}
+                    <Grid item xs={12} mt={1}>
+                      <Grid container>
+                        <Grid item xs={0.8}>
+                          <LocalShippingIcon
+                            sx={{ color: "#9a9a9a", fontSize: "20px" }}
+                          />
                         </Grid>
-                        <Grid item xs={8}>
-                          <Typography
-                            sx={{
-                              color: "#0ab222",
-                              fontSize: "12px",
-                              paddingTop: "2.5px",
-                            }}>
-                            RUNNING
-                          </Typography>
+                        <Grid item xs={7.2}>
+                          <Typography sx={styles.font}>Consignment</Typography>
                         </Grid>
-                      </Grid>
-                    )}
-                  </Grid>
-                  <Grid item xs={0.4}></Grid>
-
-                  {/* ............................................................................ Shortcut Icon ........................................................................ */}
-
-                  <Grid item xs={1}>
-                    <Box
-                      sx={{
-                        backgroundColor: "#aeffcd",
-                        textAlign: "center",
-                        padding: "0px 5px 0px 5px",
-                        cursor: "pointer",
-                        height: "30px",
-                      }}>
-                      <ShortcutIcon sx={{ color: "#0ab222" }} />
-                    </Box>
-                  </Grid>
-                  {/* .................................................................................Address......................................................................... */}
-                  <Grid item xs={12} mt={2}>
-                    <Box sx={{ display: "flex" }}>
-                      <Box>
-                        <LocationOnIcon
-                          sx={{ color: "#ef5350", fontSize: "20px" }}
-                        />
-                      </Box>
-                      <Typography sx={styles.font}>
-                        <Box component="span">{item.gpsDtl.latLngDtl.addr}</Box>
-                      </Typography>
-                    </Box>
-                  </Grid>
-                  {/* ................................................................................. Time ......................................................................... */}
-                  <Grid item xs={12} mt={1}>
-                    <Box sx={{ display: "flex", gap: "5px" }}>
-                      <Box>
-                        <AccessTimeFilledIcon
-                          sx={{ paddingBottom: "-15px", fontSize: "20px" }}
-                        />
-                      </Box>
-                      <Typography sx={styles.font}>
-                        {item.gpsDtl.latLngDtl.gpstime}
-                      </Typography>
-                    </Box>
-                  </Grid>
-
-                  {/* ................................................................................. Speed ......................................................................... */}
-                  <Grid item xs={12} mt={1}>
-                    <Box sx={{ display: "flex", gap: "5px" }}>
-                      <Box>
-                        <SpeedIcon
-                          sx={{
-                            paddingBottom: "-15px",
-                            color: "#4a9aba",
-                            fontSize: "20px",
-                          }}
-                        />
-                      </Box>
-                      <Typography sx={styles.font}>
-                        {item.gpsDtl.speed ? item.gpsDtl.speed : "0"} kmph
-                      </Typography>
-                    </Box>
-                  </Grid>
-
-                  {/* ...................................................................................... Consignment ........................................................................................ */}
-                  <Grid item xs={12} mt={1}>
-                    <Grid container>
-                      <Grid item xs={0.8}>
-                        <LocalShippingIcon
-                          sx={{ color: "#9a9a9a", fontSize: "20px" }}
-                        />
-                      </Grid>
-                      <Grid item xs={7.2}>
-                        <Typography sx={styles.font}>Consignment</Typography>
-                      </Grid>
-                      <Grid item xs={0.6}>
-                        <PowerIcon
-                          sx={{ color: "#da7532", fontSize: "20px" }}
-                        />
-                      </Grid>
-                      <Grid item xs={1}>
-                        <Typography sx={styles.switch}>Off</Typography>
-                      </Grid>
-                      <Grid item xs={0.6}>
-                        <KeyIcon sx={{ color: "#da7532", fontSize: "20px" }} />
-                      </Grid>
-                      <Grid item xs={1.2}>
-                        <Typography sx={styles.switch}>Off</Typography>
+                        <Grid item xs={0.6}>
+                          <PowerIcon
+                            sx={{ color: "#da7532", fontSize: "20px" }}
+                          />
+                        </Grid>
+                        <Grid item xs={1}>
+                          <Typography sx={styles.switch}>Off</Typography>
+                        </Grid>
+                        <Grid item xs={0.6}>
+                          <KeyIcon
+                            sx={{ color: "#da7532", fontSize: "20px" }}
+                          />
+                        </Grid>
+                        <Grid item xs={1.2}>
+                          <Typography sx={styles.switch}>Off</Typography>
+                        </Grid>
                       </Grid>
                     </Grid>
                   </Grid>
+                </Box>
+
+                {/* ..........................................................................................Driver Details................................................................... */}
+
+                <Grid container>
+                  <Grid item xs={0.5}></Grid>
+                  <Grid item xs={1} py={0.5}>
+                    <Box
+                      sx={{
+                        width: "30px",
+                        height: "30px",
+                        backgroundColor: "#d9d9d9",
+                        borderRadius: "50%",
+                      }}></Box>
+                  </Grid>
+                  <Grid item xs={6}>
+                    <Typography pt={1} sx={styles.font}>
+                      {item.drivers.driverName
+                        ? item.drivers.driverName.toUpperCase()
+                        : "NA"}
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={4}>
+                    <Typography pt={1} sx={styles.font}>
+                      <Box component="span" style={{ fontWeight: 600 }}>
+                        +91&nbsp;
+                      </Box>
+                      {item.drivers.phoneNumber ? item.drivers.phoneNumber : ""}
+                    </Typography>
+                  </Grid>
                 </Grid>
               </Box>
-
-              {/* ..........................................................................................Driver Details................................................................... */}
-
-              <Grid container>
-                <Grid item xs={0.5}></Grid>
-                <Grid item xs={1} py={0.5}>
-                  <Box
-                    sx={{
-                      width: "30px",
-                      height: "30px",
-                      backgroundColor: "#d9d9d9",
-                      borderRadius: "50%",
-                    }}></Box>
-                </Grid>
-                <Grid item xs={6}>
-                  <Typography pt={1} sx={styles.font}>
-                    {item.drivers.driverName
-                      ? item.drivers.driverName.toUpperCase()
-                      : "NA"}
-                  </Typography>
-                </Grid>
-                <Grid item xs={4}>
-                  <Typography pt={1} sx={styles.font}>
-                    <Box component="span" style={{ fontWeight: 600 }}>
-                      +91&nbsp;
-                    </Box>
-                    {item.drivers.phoneNumber ? item.drivers.phoneNumber : ""}
-                  </Typography>
-                </Grid>
-              </Grid>
+            ))
+          ) : (
+            <Box
+              sx={{
+                textAlign: "center",
+                padding: "5px 0 5px 0",
+                boxShadow:
+                  "rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;",
+              }}>
+              <Typography>No Data Found...</Typography>
             </Box>
-          ))}
+          )}
         </Box>
       </Box>
     </>

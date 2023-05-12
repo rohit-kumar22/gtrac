@@ -1,28 +1,21 @@
 import * as React from "react";
-import { styled, useTheme } from "@mui/material/styles";
+import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
 import MuiDrawer from "@mui/material/Drawer";
 import MuiAppBar from "@mui/material/AppBar";
-import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
 import CssBaseline from "@mui/material/CssBaseline";
 import Typography from "@mui/material/Typography";
 import Divider from "@mui/material/Divider";
-import IconButton from "@mui/material/IconButton";
-
-import ChevronLeftIcon from "@mui/icons-material/ChevronLeft";
-import ChevronRightIcon from "@mui/icons-material/ChevronRight";
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
 
 //utils
 import { data } from "../../dist/json/navbarData";
 
-const drawerWidth = 240;
+const drawerWidth = 220;
 
 const openedMixin = (theme) => ({
   width: drawerWidth,
@@ -45,24 +38,6 @@ const closedMixin = (theme) => ({
   },
 });
 
-const AppBar = styled(MuiAppBar, {
-  shouldForwardProp: (prop) => prop !== "open",
-})(({ theme, open }) => ({
-  zIndex: theme.zIndex.drawer + 1,
-  transition: theme.transitions.create(["width", "margin"], {
-    easing: theme.transitions.easing.sharp,
-    duration: theme.transitions.duration.leavingScreen,
-  }),
-  ...(open && {
-    marginLeft: drawerWidth,
-    width: `calc(100% - ${drawerWidth}px)`,
-    transition: theme.transitions.create(["width", "margin"], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.enteringScreen,
-    }),
-  }),
-}));
-
 const Drawer = styled(MuiDrawer, {
   shouldForwardProp: (prop) => prop !== "open",
 })(({ theme, open }) => ({
@@ -81,15 +56,10 @@ const Drawer = styled(MuiDrawer, {
 }));
 
 export default function Sidebar() {
-  const theme = useTheme();
   const [open, setOpen] = React.useState(false);
 
   const handleDrawerOpen = (value) => {
     setOpen(value);
-  };
-
-  const handleDrawerClose = () => {
-    setOpen(false);
   };
 
   return (
@@ -101,10 +71,17 @@ export default function Sidebar() {
         sx={{ position: "absolute", zIndex: 2 }}>
         <List
           onMouseOver={() => handleDrawerOpen(true)}
-          onMouseOut={() => handleDrawerOpen(false)}>
-          {data.map(({ name, logo }, index) => (
-            <ListItem key={name} disablePadding sx={{ display: "block" }}>
-              {console.log("logo", logo)}
+          onMouseOut={() => handleDrawerOpen(false)}
+          sx={{ paddingTop: "0px" }}>
+          {data.map(({ name, Logo }, index) => (
+            <ListItem
+              key={name}
+              disablePadding
+              sx={{
+                display: "block",
+                backgroundColor: name === "Dashboard" ? "#d9d9d9" : "#ffffff",
+              }}>
+              {console.log("logo", Logo)}
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -117,11 +94,25 @@ export default function Sidebar() {
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
                   }}>
-                  <logo />
+                  <Logo
+                    sx={{ color: name === "ITG Telematics" ? "#000000" : "" }}
+                  />
                 </ListItemIcon>
                 <ListItemText
                   primary={name}
-                  sx={{ opacity: open ? 1 : 0, fontSize: "12px" }}
+                  style={{
+                    opacity: open ? 1 : 0,
+                    fontWeight:
+                      name === "ITG Telematics ? 700 : 300 !important",
+                    fontSize: "5px !important",
+                  }}
+                  primaryTypographyProps={{
+                    style: {
+                      fontWeight: name === "ITG Telematics" ? 800 : 500,
+                      fontSize: "14px",
+                      color: name === "Dashboard" ? "#1D267D" : "",
+                    },
+                  }}
                 />
               </ListItemButton>
             </ListItem>

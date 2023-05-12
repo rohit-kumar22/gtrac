@@ -79,15 +79,12 @@ export default function Dashboard() {
     const response = await fetch(url);
     const res = await response.json();
     const running = res?.list.filter((item) => {
-      console.log("speed", item.gpsDtl.speed);
       return Number(item.gpsDtl.speed) > 0;
     });
 
     const stopped = res?.list.filter((item) => {
       return item.gpsDtl.speed === 0 || item.gpsDtl.speed === "";
     });
-
-    console.log("running", running, "stopped", stopped);
 
     setProgressBar(false);
     setFilteredData((prev) => ({

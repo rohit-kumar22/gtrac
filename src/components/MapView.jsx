@@ -6,7 +6,8 @@ import {
   MarkerClusterer,
   InfoWindow,
 } from "@react-google-maps/api";
-import greenTruck from "../assets/greenTruck.png";
+import AddIcon from "@mui/icons-material/Add";
+import truckGreen from "../assets/truckGreen.png";
 import { useNavigate, useLocation } from "react-router-dom";
 import { Box, Grid, Typography, Button } from "@mui/material";
 
@@ -25,12 +26,13 @@ const center = {
 const styles = {
   key: {
     fontSize: "12px",
-    fontWeight: 800,
-    color: "#FD6A02",
+    fontWeight: 600,
+    color: "#303030",
     paddingBottom: "7px",
   },
 
   values: {
+    fontSize: "12px",
     fontWeight: 500,
     color: "#303030",
   },
@@ -79,7 +81,7 @@ export default function MapView({ data, zoomControl }) {
                         }}
                         title={item.vehReg}
                         label={item.veh}
-                        // icon={imgUrl}
+                        // icon={truckGreen}
                         onClick={() => setSelectedMarker(item)}
                         clusterer={clusterer}
                       />
@@ -91,49 +93,89 @@ export default function MapView({ data, zoomControl }) {
                           lng: selectedMarker.gpsDtl.latLngDtl.lng,
                         }}
                         onCloseClick={() => setSelectedMarker(null)}>
-                        <Box sx={{ width: "400px" }}>
+                        <Box sx={{ width: "350px" }}>
                           <Grid container>
                             <Grid item xs={12}>
                               <Typography
                                 sx={{
-                                  fontSize: "20px",
-                                  fontWeight: 700,
+                                  fontSize: "16px",
+                                  fontWeight: 400,
+                                  color: "#81b790",
                                 }}>
-                                {selectedMarker.vehReg}
+                                Vehicle Information
                               </Typography>
                             </Grid>
-                            <Grid item xs={12}>
-                              <Typography sx={styles.key}>
-                                Location :{" "}
-                                <Box
-                                  component="span"
-                                  sx={styles.values}
-                                  style={{ wordBreak: "break-word" }}>
-                                  {selectedMarker.gpsDtl.latLngDtl.addr}
-                                </Box>
-                              </Typography>
-                              <Typography sx={styles.key}>
-                                Speed :{" "}
-                                <Box component="span" sx={styles.values}>
-                                  {selectedMarker.gpsDtl.speed
-                                    ? "0"
-                                    : selectedMarker.gpsDtl.speed}{" "}
-                                  km/hr
-                                </Box>
-                              </Typography>
-                              <Typography sx={styles.key}>
-                                Date Time :{" "}
-                                <Box component="span" sx={styles.values}>
-                                  {selectedMarker.gpsDtl.latLngDtl.gpstime}
-                                </Box>
-                              </Typography>
+                            <Grid item xs={12} pt={1}>
+                              {/* ..................................................................................... Vehicle No .................................................................. */}
+
+                              <Grid container>
+                                <Grid item xs={3}>
+                                  <Typography sx={styles.key}>
+                                    Vehicle No.
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                  <Typography sx={styles.values}>
+                                    {selectedMarker.vehReg}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                              {/* ..................................................................................... Speed .................................................................. */}
+                              <Grid container>
+                                <Grid item xs={3}>
+                                  <Typography sx={styles.key}>Speed</Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                  <Typography sx={styles.values}>
+                                    {selectedMarker.gpsDtl.speed
+                                      ? "0"
+                                      : selectedMarker.gpsDtl.speed}{" "}
+                                    km/hr
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                              {/* ..................................................................................... Last Update .................................................................. */}
+                              <Grid container>
+                                <Grid item xs={3}>
+                                  <Typography sx={styles.key}>
+                                    Last Updated
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                  <Typography sx={styles.values}>
+                                    {selectedMarker.gpsDtl.speed
+                                      ? "0"
+                                      : selectedMarker.gpsDtl.speed}{" "}
+                                    km/hr
+                                  </Typography>
+                                </Grid>
+                              </Grid>
+                              {/* ..................................................................................... Location .................................................................. */}
+                              <Grid container>
+                                <Grid item xs={3}>
+                                  <Typography sx={styles.key}>
+                                    Location
+                                  </Typography>
+                                </Grid>
+                                <Grid item xs={9}>
+                                  <Typography
+                                    sx={styles.values}
+                                    style={{ wordBreak: "break-word" }}>
+                                    {selectedMarker?.gpsDtl.latLngDtl.addr}
+                                  </Typography>
+                                </Grid>
+                              </Grid>
                             </Grid>
+                            {/* ..................................................................................... More Info .................................................................. */}
                             <Grid
                               item
                               xs={12}
-                              sx={{ textAlign: "end", paddingTop: "10px" }}>
-                              <Button sx={{ color: "#404040" }}>
-                                More Info
+                              sx={{ textAlign: "left", paddingTop: "10px" }}>
+                              <Button
+                                sx={{ color: "#0d6efd", textTransform: "none" }}
+                                variant="outlined">
+                                <AddIcon sx={{ fontSize: "16px" }} />
+                                Add Address
                               </Button>
                             </Grid>
                           </Grid>

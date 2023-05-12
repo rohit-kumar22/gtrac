@@ -34,7 +34,7 @@ export default function Navbar() {
   };
   return (
     <>
-      <Box sx={{ borderBottom: "1px solid #9a9a9a", paddingBottom: "5px" }}>
+      <Box sx={{ borderBottom: "1px solid #9a9a9a", padding: "5px 0 5px 0" }}>
         <Grid container>
           <Grid item xs={0.2}></Grid>
           <Grid item xs={10}>
@@ -46,7 +46,10 @@ export default function Navbar() {
             <Typography sx={styles.title}>itgt</Typography>
           </Grid>
           <Grid item xs={1.4}>
-            <Button variant="outlined" sx={styles.button} onClick={handleNavigate}>
+            <Button
+              variant="outlined"
+              sx={styles.button}
+              onClick={handleNavigate}>
               <LogoutIcon />
               &nbsp; Logout
             </Button>

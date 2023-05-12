@@ -102,9 +102,9 @@ export default function Sidebar() {
         <List
           onMouseOver={() => handleDrawerOpen(true)}
           onMouseOut={() => handleDrawerOpen(false)}>
-          {data.map(({ name, Logo }, index) => (
+          {data.map(({ name, logo }, index) => (
             <ListItem key={name} disablePadding sx={{ display: "block" }}>
-              {console.log("logo", Logo)}
+              {console.log("logo", logo)}
               <ListItemButton
                 sx={{
                   minHeight: 48,
@@ -117,7 +117,7 @@ export default function Sidebar() {
                     mr: open ? 3 : "auto",
                     justifyContent: "center",
                   }}>
-                  <Logo />
+                  <logo />
                 </ListItemIcon>
                 <ListItemText
                   primary={name}

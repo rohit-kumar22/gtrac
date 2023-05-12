@@ -55,7 +55,7 @@ const defaultTab = {
   RUNNING: { label: "Running", value: "running" },
   IDE: { label: "Ide", value: "ide" },
   ALL: { label: "All", value: "all" },
-  POI: { label: "Poi", value: "poi" },
+  POI: { label: "POI", value: "poi" },
 };
 
 export default function Dashboard() {
@@ -73,7 +73,7 @@ export default function Dashboard() {
     "http://gtrac.in:8080/trackingdashboard/getListVehicles?token=53096";
 
   const getData = async () => {
-    debugger;
+    // debugger;
     setProgressBar(true);
 
     const response = await fetch(url);
@@ -134,26 +134,26 @@ export default function Dashboard() {
     getData();
   }, []);
 
-  useEffect(() => {}, [data]);
+  // useEffect(() => {}, [data]);
 
-  useEffect(() => {
-    let st = 0;
-    let rn = 0;
-    let all = data?.list.length;
-    data?.list.forEach((item) => {
-      if (item.gpsDtl.speed === 0 || item.gpsDtl.speed === "") {
-        st++;
-      } else {
-        rn++;
-      }
-    });
-    // setMode([
-    //   { title: "Running", value: "one", count: rn },
-    //   { title: "Idle", value: "two", count: st },
-    //   { title: "All", value: "three", count: all },
-    //   { title: "POI", value: "four", count: 0 },
-    // ]);
-  }, [data]);
+  // useEffect(() => {
+  //   let st = 0;
+  //   let rn = 0;
+  //   let all = data?.list.length;
+  //   data?.list.forEach((item) => {
+  //     if (item.gpsDtl.speed === 0 || item.gpsDtl.speed === "") {
+  //       st++;
+  //     } else {
+  //       rn++;
+  //     }
+  //   });
+  //   // setMode([
+  //   //   { title: "Running", value: "one", count: rn },
+  //   //   { title: "Idle", value: "two", count: st },
+  //   //   { title: "All", value: "three", count: all },
+  //   //   { title: "POI", value: "four", count: 0 },
+  //   // ]);
+  // }, [data]);
 
   const handleFilter = (mode) => {
     let array = [];
@@ -223,31 +223,6 @@ export default function Dashboard() {
                           </Button>
                         ))}
                       </Box>
-                      {/* <Tabs
-                        value={tab}
-                        onChange={handleTabs}
-                        TabIndicatorProps={{
-                          style: {
-                            backgroundColor: "#5cb85c",
-
-                            "& .MuiTab-root.Mui-selected": {
-                              color: "red",
-                            },
-                          },
-                        }}>
-                        {mode.map((tab, index) => (
-                          <Tab
-                            key={index}
-                            value={tab.value}
-                            label={`${tab.title} (${tab.count})`}
-                            sx={{
-                              border: "none",
-                              textTransform: "none",
-                              color: "#5cb85c",
-                            }}
-                          />
-                        ))}
-                      </Tabs> */}
                     </Box>
                   </Grid>
                   {/* .............................................................................................Cards.......................................................... */}

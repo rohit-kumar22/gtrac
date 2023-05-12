@@ -3,37 +3,31 @@ import LocalShippingIcon from "@mui/icons-material/LocalShipping";
 import BorderColorIcon from "@mui/icons-material/BorderColor";
 import ShowChartIcon from "@mui/icons-material/ShowChart";
 import SettingsIcon from "@mui/icons-material/Settings";
-import MenuIcon from "@mui/icons-material/Menu";
 
 export const data = [
   {
-    name: "ITG Telematics",
-    Logo: MenuIcon,
-    path: "/dashboard",
-  },
-  {
     name: "Dashboard",
-    Logo: DashboardIcon,
+    logo: DashboardIcon,
     path: "/dashboard",
   },
   {
     name: "Vehicles",
-    Logo: LocalShippingIcon,
+    logo: { LocalShippingIcon },
     path: "",
   },
   {
     name: "Plan",
-    Logo: BorderColorIcon,
+    logo: { BorderColorIcon },
     path: "",
   },
   {
     name: "Trips",
-    Logo: ShowChartIcon,
+    logo: { ShowChartIcon },
     path: "",
   },
   {
     name: "Settings",
-    Logo: SettingsIcon,
+    logo: { SettingsIcon },
     path: "",
   },
 ];

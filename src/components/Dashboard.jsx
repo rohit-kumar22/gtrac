@@ -61,7 +61,7 @@ const defalutData = {
 };
 const defaultTab = {
   RUNNING: { label: "Running", value: "running" },
-  IDE: { label: "Ide", value: "ide" },
+  IDE: { label: "Idle", value: "ide" },
   ALL: { label: "All", value: "all" },
   POI: { label: "POI", value: "poi" },
 };

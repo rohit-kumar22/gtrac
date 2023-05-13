@@ -63,7 +63,7 @@ export default function CarDetailsCard({ data, setMapData, mapData }) {
                   cursor: "pointer",
                   backgroundColor:
                     mapData?.data && mapData?.data[0].vehReg === item.vehReg
-                      ? "#d9d9d9"
+                      ? "#F5F5F5"
                       : "",
                   // "&:hover": {
                   //   backgroundColor: "#C0C0C0",

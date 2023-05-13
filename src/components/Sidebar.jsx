@@ -62,6 +62,8 @@ export default function Sidebar() {
     setOpen(value);
   };
 
+  console.log("sidebar called");
+
   return (
     <Box
       sx={{ display: "flex", cursor: "pointer" }}
@@ -81,10 +83,9 @@ export default function Sidebar() {
                 display: "block",
                 backgroundColor: name === "Dashboard" ? "#d9d9d9" : "#ffffff",
               }}>
-              {console.log("logo", Logo)}
               <ListItemButton
                 sx={{
-                  minHeight: 48,
+                  minHeight: 55,
                   justifyContent: open ? "initial" : "center",
                   px: 2.5,
                 }}>

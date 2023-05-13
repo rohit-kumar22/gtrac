@@ -32,6 +32,8 @@ export default function Navbar() {
   const handleNavigate = () => {
     navigate("/");
   };
+
+  console.log("Navbar called");
   return (
     <>
       <Box sx={{ borderBottom: "1px solid #9a9a9a", padding: "5px 0 5px 0" }}>
